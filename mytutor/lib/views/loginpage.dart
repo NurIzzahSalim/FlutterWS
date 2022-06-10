@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
     String _email = emailCtrller.text;
     String _password = passwordCtrller.text;
     if(_email.isNotEmpty && _password.isNotEmpty){
-        http.post(Uri.parse("http://10.31.105.58/mytutor/mobile/PHP/login_user.php"),
+        http.post(Uri.parse("http://10.31.150.194/mytutor/mobile/PHP/login_user.php"),
             body: {"email": _email, "password": _password}).then((response){
               print(response.body);
 

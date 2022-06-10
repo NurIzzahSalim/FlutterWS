@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:mytutor/views/loginpage.dart';
-//import 'package:mytutor/views/mainscreen.dart';
+import 'package:my_tutor/LoginScreen.dart';
 
 void main() {
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -41,7 +42,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
     Timer(
       const Duration(seconds:3),
       () => Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (content) => const LoginPage())));
+        context, MaterialPageRoute(builder: (content) => const LoginScreen())));
   }
 
   @override
@@ -69,5 +70,13 @@ class _MySplashScreenState extends State<MySplashScreen> {
           )],
       ),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }
