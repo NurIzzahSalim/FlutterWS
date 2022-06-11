@@ -5,12 +5,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_tutor/MainScreen.dart';
+import 'package:my_tutor/BarScreen.dart';
+//import 'package:my_tutor/MainScreen.dart';
 import 'package:my_tutor/constants.dart';
-import 'package:my_tutor/models/admin.dart';
+//import 'package:my_tutor/models/admin.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
+
+//import 'BarScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -216,14 +219,6 @@ class _LoginScreenState extends State<LoginScreen> {
         print(response.body);
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 && data['status'] == 'success') {
-          Admin admin = Admin.fromJson(data['data']);
-          // String name = data['data']['name'];
-          // String email = data['data']['email'];
-          // String id = data['data']['id'];
-          // String datereg = data['data']['datereg'];
-          // String role = data['data']['role'];
-          // Admin admin = Admin(
-          // name: name, email: email, id: id, role: role, datereg: datereg);
 
           Fluttertoast.showToast(
               msg: "Success",
@@ -236,9 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (content) => MainScreen(
-                        admin: admin,
-                      )));
+                  builder: (content) => const BarScreen()));
         } else {
           Fluttertoast.showToast(
               msg: "Failed",
