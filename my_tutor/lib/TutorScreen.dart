@@ -84,38 +84,55 @@ class _TutorScreenState extends State<TutorScreen> {
                                   child: Center(
                                     child: Column(
                                       children: [
+                                        
                                         const Text("Name:",
                                             textAlign: TextAlign.left,
-                                            style: TextStyle(fontSize: 14)),
+                                            style: TextStyle(fontSize: 12)),
                                         Text(
                                             tutorList![index]
                                                 .tutorName
                                                 .toString(),
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 10,
                                                 fontWeight: FontWeight.bold)),
                                         const SizedBox(height: 5),
+                                        
                                         const Text("Email:",
-                                            style: TextStyle(fontSize: 14)),
+                                            style: TextStyle(fontSize: 12)),
                                         Text(
                                           tutorList![index]
                                               .tutorEmail
                                               .toString(),
                                           style: const TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 10,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(height: 5),
+                                        
                                         const Text("Phone:",
-                                            style: TextStyle(fontSize: 14)),
+                                            style: TextStyle(fontSize: 12)),
                                         Text(
                                             tutorList![index]
                                                 .tutorPhone
                                                 .toString(),
                                             style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold)),
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold)
+                                        ),
+                                        const SizedBox(height: 5),
+
+                                        const Text("Description:",
+                                            style: TextStyle(fontSize: 12)),
+                                        Text(
+                                            tutorList![index]
+                                                .tutorDescription
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontSize: 8,
+                                                fontWeight: FontWeight.bold)
+                                        ),
+
                                       ],
                                     ),
                                   ))

@@ -39,7 +39,7 @@ class _BarScreenState extends State<BarScreen> {
           color: Colors.black,
         ),
 
-        unselectedItemColor: Colors.red,
+        unselectedItemColor: Colors.black,
 
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

@@ -96,18 +96,9 @@ class _MainScreenState extends State<MainScreen> {
                                             .toString(),
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
-                                            fontSize: 10, 
+                                            fontSize: 12, 
                                             fontWeight: FontWeight.w500,
                                             color: Colors.brown)),
-                                        
-                                        Text("RM " +
-                                          double.parse(subjectList![index]
-                                                  .subjectPrice
-                                                  .toString())
-                                              .toStringAsFixed(2),
-                                            style: const TextStyle(
-                                            fontSize: 10, 
-                                            fontWeight: FontWeight.w600)),
                                         
                                         Text(
                                           subjectList![index]
@@ -117,7 +108,7 @@ class _MainScreenState extends State<MainScreen> {
                                             style: const TextStyle(
                                             fontSize: 10, 
                                             color: Colors.brown)),
-
+                                        
                                         Text("Rating " +
                                           double.parse(subjectList![index]
                                                   .subjectRating
@@ -126,6 +117,15 @@ class _MainScreenState extends State<MainScreen> {
                                             style: const TextStyle(
                                             fontSize: 10, 
                                             color: Colors.brown)),
+
+                                        Text("RM " +
+                                          double.parse(subjectList![index]
+                                                  .subjectPrice
+                                                  .toString())
+                                              .toStringAsFixed(2),
+                                            style: const TextStyle(
+                                            fontSize: 10, 
+                                            fontWeight: FontWeight.w600)),
                                           
                                       ],
                                     ),
