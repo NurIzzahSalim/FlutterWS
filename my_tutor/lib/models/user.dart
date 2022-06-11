@@ -1,13 +1,13 @@
-class Users {
+class User {
   String? id;
   String? name;
   String? email;
   String? phone;
   String? address;
 
-  Users({this.id, this.email ,this.name, this.phone, this.address});
+  User({this.id, this.email ,this.name, this.phone, this.address});
 
-  Users.fromJson(Map<String, dynamic> json) {
+  User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
     name = json['name'];
