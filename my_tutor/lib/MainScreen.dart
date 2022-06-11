@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
           ? Center(
             child: Text(titlecenter,
             style: const TextStyle(
-            fontSize: 18, fontWeight: FontWeight.bold))) 
+            fontSize: 20, fontWeight: FontWeight.bold))) 
             
           :Column(
             children: [

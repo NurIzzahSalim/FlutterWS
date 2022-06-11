@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_tutor/BarScreen.dart';
-//import 'package:my_tutor/MainScreen.dart';
+//import 'package:my_tutor/TutorScreen.dart';
 import 'package:my_tutor/constants.dart';
-//import 'package:my_tutor/models/admin.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';

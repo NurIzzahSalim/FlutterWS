@@ -71,7 +71,7 @@ class _TutorScreenState extends State<TutorScreen> {
                                   imageUrl: CONSTANTS.server +
                                       "/mytutor/mobile/assets/tutors/" +
                                       tutorList![index].tutorId.toString() +
-                                      '.png',
+                                      '.jpg',
                                   placeholder: (context, url) =>
                                       const CircularProgressIndicator(),
                                   errorWidget: (context, url, error) =>
