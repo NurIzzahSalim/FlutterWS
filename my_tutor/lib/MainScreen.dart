@@ -23,10 +23,13 @@ class _MainScreenState extends State<MainScreen> {
   var numofpage, curpage = 1;
   var color;
 
-   @override
- void initState() {
+  TextEditingController searchController = TextEditingController();
+  String search = "";
+
+  @override
+  void initState() {
    super.initState();
-   _loadSubject(1);
+   _loadSubject(1,search);
  }
   
   @override
@@ -43,7 +46,15 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('MY TUTOR SUBJECT'),
+               actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {_loadSearchDialog();
+            },
+          )
+        ],
         ),
+
         body: subjectList!.isEmpty
           ? Center(
             child: Text(titlecenter,
@@ -65,6 +76,7 @@ class _MainScreenState extends State<MainScreen> {
                       crossAxisCount: 2,
                       childAspectRatio: (1 / 1),
                       children: List.generate(subjectList!.length, (index) {
+                        
                           return Card(
                             child: Column(
                             children: [
@@ -96,9 +108,9 @@ class _MainScreenState extends State<MainScreen> {
                                             .toString(),
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
-                                            fontSize: 12, 
+                                            fontSize: 13, 
                                             fontWeight: FontWeight.w500,
-                                            color: Colors.brown)),
+                                            color: Colors.black)),
                                         
                                         Text(
                                           subjectList![index]
@@ -150,7 +162,7 @@ class _MainScreenState extends State<MainScreen> {
                       width: 40,
                       child: TextButton(
                           onPressed: () =>
-                              {_loadSubject(index + 1)},
+                              {_loadSubject(index + 1,search)},
                           child: Text(
                             (index + 1).toString(),
                             style: TextStyle(color: color),
@@ -162,13 +174,22 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _loadSubject(int pageno) {
+  void _loadSubject(int pageno, String search) {
     curpage = pageno;
       numofpage ?? 1;
 
       http.post(
         Uri.parse(CONSTANTS.server + "/mytutor/mobile/PHP/load_subject.php"),
-        body: {'pageno': pageno.toString()}).then((response) {
+        body: {
+          'pageno': pageno.toString(),
+          'search': search,
+        }).timeout(
+          const Duration(seconds:5),
+          onTimeout:(){
+            return http.Response(
+              'Error', 408);
+          }
+        ).then((response) {
         var jsondata = jsonDecode(response.body);
            if (response.statusCode == 200 && jsondata['status'] == 'success') {
           var extractdata = jsondata['data'];
@@ -179,12 +200,64 @@ class _MainScreenState extends State<MainScreen> {
             extractdata['subjects'].forEach((v) {
             subjectList!.add(Subjects.fromJson(v));
           });
-            setState(() {});
+            titlecenter = subjectList!.length.toString() + "Subject Available";
+           
+           } else {
+            titlecenter = "No Subject Available";
+            subjectList!.clear();
+          } 
+            
+         setState(() {});
+          
           } else {
             titlecenter = "No Subject Available";
+            subjectList!.clear();
             setState(() {});
         }
-        }}
-    );
+    });
+  }
+
+  void _loadSearchDialog() {
+     showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, StateSetter setState) {
+              return AlertDialog(
+                title: const Text(
+                  "Search Subject",
+                  style: 
+                    TextStyle(fontSize: 25, fontWeight: FontWeight.bold)
+                ),
+          
+          content: SizedBox(
+            height: screenHeight/3,
+            child: Column(
+              children: [
+                TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                            labelText: 'Type Subject Here',
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0))
+                                ),
+                  ),
+              ],
+            ),
+          ),
+            actions: [
+                  ElevatedButton(
+                    onPressed: () {
+                      search = searchController.text;
+                      Navigator.of(context).pop();
+                      _loadSubject(1, search);
+                    },
+                    child: const Text("Search"),
+                  )
+                ],
+        );
+      });         
+     }
+   );
   }
 }

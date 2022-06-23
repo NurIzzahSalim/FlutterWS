@@ -47,22 +47,31 @@ class _BarScreenState extends State<BarScreen> {
             label: 'Subjects',
             backgroundColor: Colors.brown,
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.assignment_ind_outlined),
             label: 'Tutors',
+            backgroundColor: Colors.brown,
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.auto_fix_high_outlined),
             label: 'Subscribe',
+            backgroundColor: Colors.brown,
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_rounded),
             label: 'Favourite',
+            backgroundColor: Colors.brown,
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_rounded),
             label: 'Profile',
+            backgroundColor: Colors.brown,
           ),
+          
         ],
         currentIndex: _selectedIndex, //New
         onTap: _onItemTapped,
