@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_tutor/BarScreen.dart';
 //import 'package:my_tutor/MainScreen.dart';
 import 'package:my_tutor/models/cart.dart';
@@ -53,8 +54,7 @@ class _CartScreenState extends State<CartScreen> {
               backgroundColor: Colors.brown,
               leading: GestureDetector(
                 child: const Icon(
-                  Icons.arrow_back, 
-                  color: Colors.white,),
+                  Icons.arrow_back, color: Colors.white,),
                   
                 onTap: () {
                   Navigator.pushReplacement(
@@ -92,7 +92,7 @@ class _CartScreenState extends State<CartScreen> {
                               
                               return InkWell(
                                   child: Card(
-                                      child: Column(
+                                      child: Row(
                                 children: [
                                   Flexible(
                                     flex: 6,
@@ -115,10 +115,8 @@ class _CartScreenState extends State<CartScreen> {
                                       Flexible(
                                         flex: 4,
                                         child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             
                                             children: [
                                               Column(children: [
@@ -137,6 +135,13 @@ class _CartScreenState extends State<CartScreen> {
                                                         fontSize: 16,
                                                         fontWeight:FontWeight.bold)),
                                               ]),
+                                              
+                                              IconButton(
+                                                  onPressed: () {
+                                                    _deleteItem(index);
+                                                  },
+                                                  icon:
+                                                      const Icon(Icons.delete)),
                                     ]),
                                   )
                                 ],
@@ -150,7 +155,7 @@ class _CartScreenState extends State<CartScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              "Total Payable: RM ${totalpayable.toStringAsFixed(2)}",
+                              "Total Payable: RM " + totalpayable.toStringAsFixed(2),
                               style: const TextStyle(
                                   fontSize: 18, 
                                   fontWeight: FontWeight.bold),
@@ -169,7 +174,7 @@ class _CartScreenState extends State<CartScreen> {
 
   void _loadCart() {
      http.post(
-        Uri.parse("${CONSTANTS.server}/mytutor/mobile/PHP/load_cart.php"),
+        Uri.parse(CONSTANTS.server + "/mytutor/mobile/PHP/load_cart.php"),
         body: {
           'user_email': widget.user.email,    
         }).timeout(
@@ -201,7 +206,7 @@ class _CartScreenState extends State<CartScreen> {
             totalpayable =
                 totalpayable + double.parse(element.pricetotal.toString());
           }
-           titlecenter = "Subjects in Your Cart = $qty";
+           titlecenter = "Subjects in Your Cart = " + qty.toString();
           setState(() {});
         }
       } else {
@@ -256,5 +261,38 @@ class _CartScreenState extends State<CartScreen> {
       },
     );
 
+  }
+
+  void _deleteItem(int index) {
+        http.post(
+        Uri.parse(CONSTANTS.server + "/mytutor/mobile/PHP/delete_cart.php"),
+        body: {
+          'email': widget.user.email,
+          'cartid': cartList[index].cartid
+        }).timeout(
+      const Duration(seconds: 5),
+      onTimeout: () {
+        return http.Response(
+            'Error', 408); // Request Timeout response status code
+      },
+    ).then((response) {
+      var jsondata = jsonDecode(response.body);
+      if (response.statusCode == 200 && jsondata['status'] == 'success') {
+        Fluttertoast.showToast(
+            msg: "Success",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            fontSize: 16.0);
+        _loadCart();
+      } else {
+        Fluttertoast.showToast(
+            msg: "Failed",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            fontSize: 16.0);
+      }
+    });
   }
 }
