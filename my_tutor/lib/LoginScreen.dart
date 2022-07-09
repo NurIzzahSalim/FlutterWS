@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_tutor/BarScreen.dart';
 //import 'package:my_tutor/TutorScreen.dart';
 import 'package:my_tutor/constants.dart';
-
+import 'models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
@@ -212,13 +212,16 @@ class _LoginScreenState extends State<LoginScreen> {
       _formKey.currentState!.save();
       ProgressDialog pd = ProgressDialog(context: context);
       pd.show(msg: 'Logging in..', max: 100);
+     
       http.post(
           Uri.parse(CONSTANTS.server + "/mytutor/mobile/PHP/login_user.php"),
-          body: {"email": _email, "password": _password}).then((response) {
+          body: {
+            "email": _email, "password": _password}).then((response) {
         print(response.body);
         var data = jsonDecode(response.body);
         if (response.statusCode == 200 && data['status'] == 'success') {
 
+          User user = User.fromJson(data['data']);
           Fluttertoast.showToast(
               msg: "Success",
               toastLength: Toast.LENGTH_SHORT,
@@ -230,16 +233,27 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (content) => const BarScreen()));
+                  builder: (content) =>  BarScreen(user: user,)));
         } else {
+           User user = User(
+            id: '0',
+            name: 'guest',
+            email: 'guest@mytutorapp.com',
+            cart: '0');
           Fluttertoast.showToast(
               msg: "Failed",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               fontSize: 16.0);
-          pd.update(value: 100, msg: "Failed");
-          pd.close();
+          //importpd.update(value: 100, msg: "Failed");
+          //pd.close();
+           Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (content) => BarScreen(
+                      user: user,
+                    )));
         }
       });
     }

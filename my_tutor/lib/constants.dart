@@ -1,3 +1,3 @@
 class CONSTANTS {
-  static String server = "https://10.31.208.122"; //home
+  static String server = "https://192.168.82.196"; //home/hotspot
 }

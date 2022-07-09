@@ -2,33 +2,39 @@
 
 import 'package:flutter/material.dart';
 import 'package:my_tutor/TutorScreen.dart';
+//import 'package:my_tutor/models/user.dart';
 import 'mainscreen.dart';
+import 'models/user.dart';
 
 class BarScreen extends StatefulWidget {
-  const BarScreen({Key? key}) : super(key: key);
+  //const BarScreen({Key? key}) : super(key: key);
+  final User user;
+  const BarScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   State<BarScreen> createState() => _BarScreenState();
 }
 
 class _BarScreenState extends State<BarScreen> {
-  
-  static const List<Widget> _pages = <Widget>[
-    MainScreen(),
-    TutorScreen(),
-    MainScreen(),
-    MainScreen(),
-    MainScreen(),
-  ];
+int _selectedIndex = 0;
+late List<Widget> tabbar;
 
-  int _selectedIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    tabbar = [
+      MainScreen(user: widget.user),
+      const TutorScreen(),
+      MainScreen(user: widget.user),
+      MainScreen(user: widget.user),
+      MainScreen(user: widget.user),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _pages.elementAt(_selectedIndex),
-      ),
+    body: tabbar[_selectedIndex],
 
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 15,
