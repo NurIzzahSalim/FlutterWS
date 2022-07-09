@@ -30,6 +30,12 @@ if($result->num_rows>0){
         $tutorlist['tutor_datereg']=$row['tutor_datereg'];
         array_push($tutors["tutors"],$tutorlist);
     }
+    
+    $sqlloadtutorssubject = "SELECT tbl_tutors.tutor_id,tbl_tutors.tutor_email, tbl_tutors.tutor_phone,
+    tbl_tutors.tutor_name, tbl_tutors.tutor_password, tbl_tutors.tutor_description, tbl_tutors.tutor_datereg,
+    tbl_subjects.subject_name FROM tbl_tutors INNER JOIN tbl_subjects ON tbl_tutors.tutor_id = tbl_subjects.tutor_id";
+    
+    
     $response = array('status' => 'success', 'pageno' => "$pageno", 'numofpage' => "$number_of_page", 'data' => $tutors);
     sendJsonResponse($response);
 }else{
