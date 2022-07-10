@@ -7,10 +7,10 @@ if (!isset($_POST)) {
 
 include_once("dbconnect.php");
 $subid = $_POST['subid'];
-$useremail = $_POST['email'];
+$email = $_POST['email'];
 $cartqty = "1";
 $carttotal = 0;
-$sqlinsert = "SELECT * FROM tbl_carts WHERE user_email = '$useremail' AND subject_id = '$subid' AND cart_status IS NULL";
+$sqlinsert = "SELECT * FROM tbl_carts WHERE user_email = '$email' AND subject_id = '$subid' AND cart_status IS NULL";
 $result = $conn->query($sqlinsert);
 $number_of_result = $result->num_rows;
 
@@ -19,10 +19,10 @@ if($number_of_result > 0){
         $cartqty = $row['cartqty'];
     }
     $cartqty = $cartqty + 1;
-    $updatecart = "UPDATE `tbl_carts` SET `cart_qty` = '$cartqty' WHERE user_email = '$useremail' AND subject_id = '$subid' AND cart_status IS NULL";
+    $updatecart = "UPDATE `tbl_carts` SET `cart_qty` = '$cartqty' WHERE user_email = '$email' AND subject_id = '$subid' AND cart_status IS NULL";
     $conn->query($updatecart);
 }else{
-    $addcart = "INSERT INTO `tbl_carts` (`user_email`, `subject_id`, `cart_qty`) VALUES ('$useremail', '$subid', '$cartqty')";
+    $addcart = "INSERT INTO `tbl_carts` (`user_email`, `subject_id`, `cart_qty`) VALUES ('$email', '$subid', '$cartqty')";
     if($conn->query($addcart) === TRUE){
         //$response = array('status' => 'success', 'data' => null);
         //sendJsonResponse($response);
@@ -34,7 +34,7 @@ if($number_of_result > 0){
     }
 }
 
-$sqlgetqty = "SELECT * FROM tbl_carts WHERE user_email = '$useremail' AND cart_status IS NULL";
+$sqlgetqty = "SELECT * FROM tbl_carts WHERE user_email = '$email' AND cart_status IS NULL";
 $result = $conn->query($sqlgetqty);
 $number_of_result = $result->num_rows;
 $carttotal = 0;
