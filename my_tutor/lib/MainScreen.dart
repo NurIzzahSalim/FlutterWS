@@ -292,7 +292,7 @@ class _MainScreenState extends State<MainScreen> {
   void _loadMyCart() {
     if (widget.user.email != "guest@mytutorapp.com") {
       http.post(
-          Uri.parse("${CONSTANTS.server}/mytutor/mobile/PHP/load_cart.php"),
+          Uri.parse(CONSTANTS.server + "/mytutor/mobile/PHP/load_cart.php"),
           body: {
             "email": widget.user.email.toString(),
           }).timeout(
