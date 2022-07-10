@@ -33,7 +33,7 @@ foreach ($data as $key => $value) {
 }
  
  
-$signed= hash_hmac('sha256', $signing, 'S-q79281YFG2XcW6Ww-sCjJA');
+$signed= hash_hmac('sha256', $signing, ' ');
 if ($signed === $data['x_signature']) {
     if ($paidstatus == "Success"){
         $sqpupdatecart = "UPDATE `tbl_carts` SET `cart_status`='paid',`payment_id`='$paymentid' WHERE user_email='$email' AND cart_status IS NULL";
